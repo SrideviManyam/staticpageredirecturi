@@ -1,0 +1,54 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Blank template</title>
+
+        <!-- Load external CSS styles -->
+        <link rel="stylesheet" href="styles.css">
+
+    </head>
+
+    <body>
+
+        <h1>Azure app authentication is in progress...</h1>
+        
+        <!-- Load external JavaScript -->
+        <script >
+            
+        // window.open(encodeURI("https://google.com"),"_blank");
+        console.log(document.URL);
+            function getParams() {
+
+                let params = {}
+                
+                    pairs = document.URL.split('?')
+                    .pop()
+                    .split('&');
+
+                for (var i = 0, p; i < pairs.length; i++) {
+                    p = pairs[i].split('=');
+                    params[p[0]] = p[1];
+                    
+                }
+                
+                return params;
+            }
+            
+            const queryParams = getParams();
+            console.log(queryParams);
+            const [redirectURL, state] = decodeURIComponent((queryParams.state+'').replace(/%0d%0a|\+/g, '%20')).split('|');
+
+            if(queryParams.error) {
+            const formattedErrorDesc =decodeURIComponent((queryParams.error_description+'').replace(/%0d%0a|\+/g, '%20'));
+            window.location.href = atob(redirectURL) + '?error=' + queryParams.error + '$error_descriotion=' + queryParams.error_description;
+            }
+            window.location.href = atob(redirectURL) + '?code='+queryParams.code+'&state='+state;
+
+        </script>
+        
+    </body>
+
+</html>
